@@ -1,0 +1,36 @@
+/* OutSports Title */
+.title2 {
+  text-align: center;
+  font-size: 3.5em;
+  font-family: 'Dancing Script', cursive;
+  background: linear-gradient(to right, #e4e2df, #ffffff, #6c97d9, #94edff); 
+  color: transparent;
+  background-clip: text;
+}
+
+.nav-pills .nav-link {
+  width: 100%;
+  color: #fff;
+  background-color: #accef2; /* Primary color */
+  
+  border-radius: 5px;
+  margin: 5px;
+  padding: 10px 20px;
+  font-size: 18px;
+}
+
+/* Style for active state */
+.nav-pills .nav-link.active {
+  background-color: #007bff; /* Darker shade for active state */
+}
+
+/* Style for Login and Register buttons inside the form */
+.btn-primary {
+  background-color: #007bff; /* Primary color */
+  color: #fff;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #007bff; /* Darker shade on hover */
+}

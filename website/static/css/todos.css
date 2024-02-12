@@ -1,0 +1,67 @@
+/* TODO LIST*/
+
+#todo-list {
+    list-style: none;
+    padding: 0;
+}
+
+#todo-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.todo-title {
+    flex-grow: 1;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+    border-color: #e74c3c;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+    border-color: #c0392b;
+}
+
+/* Sports Lists Buttons*/
+.button-container {
+    display: flex;
+    gap: 10px; 
+    text-align: center;
+    white-space: nowrap;
+}
+
+.updateButton,
+.addToListButton {
+    width: 100%;
+    padding: 10px 20px; /* Adjust padding as needed */
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.updateButton {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.updateButton:hover {
+    background-color: #45a049;
+}
+
+.addToListButton {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.addToListButton:hover {
+    background-color: #0056b3;
+}
