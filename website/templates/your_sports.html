@@ -1,0 +1,187 @@
+{% extends "base.html" %} {% block title %}Sports List{% endblock %} {% block
+content %}
+<div class="container my-1">
+  <h2 class="title">OutSports</h2>
+</div>
+
+<div class="container my-2">
+  <div class="container my-1">
+    <div class="section-title">
+      <h2>sportS</h2>
+      <p>Sports List sportS</p>
+    </div>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/todos.css') }}"
+    />
+
+    {% if sports %}
+    <div class="container my-1 d-flex justify-content-center">
+      <form
+        method="post"
+        action="{{ url_for('views.update_sports') }}"
+        id="updateForm"
+      >
+        <div class="container my-5">
+          <ul id="sport-list">
+            {% for sport in sports %}
+            <li>
+              <input type="hidden" name="sport_ids[]" value="{{ sport.id }}" />
+              <input
+                type="checkbox"
+                name="completed[{{ sport.id }}]"
+                {%
+                if
+                sport.completed
+                %}checked{%
+                endif
+                %}
+                value="{{ sport.id }}"
+              />
+              <span
+                id="sportTitle_{{ sport.id }}"
+                name="names[{{ sport.id }}]"
+                class="sport-title"
+                >{{ sport.title }}</span
+              >
+
+              <!-- Add hidden input fields for title and completed -->
+              <input type="hidden" name="titles[]" value="{{ sport.title }}" />
+              <input
+                type="hidden"
+                name="statuses[]"
+                value="{{ sport.completed }}"
+              />
+
+              <div class="button-container">
+                <a
+                  href="#"
+                  class="btn btn-primary btn-sm edit-button"
+                  onclick="editSport('{{ sport.id }}', '{{ sport.title }}')"
+                >
+                  <i class="fa-sharp fa-solid fa-pen-to-square"></i>
+                </a>
+
+                <a
+                  href="{{ url_for('views.delete_sport', title=sport.title) }}"
+                  class="btn btn-danger btn-sm"
+                  onclick="return confirm('Are you sure you want to delete {{ sport.title }}?')"
+                >
+                  <i class="fa-solid fa-trash"></i>
+                </a>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button-container">
+          <button type="submit" class="btn btn updateButton">Update</button>
+          <button
+            type="button"
+            class="btn btn addToListButton"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >
+            Add to List
+          </button>
+        </div>
+      </form>
+    </div>
+    {% else %}
+    <div class="empty-list-message text-center">
+      <p>
+        No sports in the list. Add your favorite sports!
+        <i class="far fa-smile"></i>
+      </p>
+      <div class="container my-2">
+        <img
+          src="{{ url_for('static', filename='img/kitesurf.jpg') }}"
+          alt="Empty List Image"
+          class="img-fluid"
+          style="height: 420px"
+        />
+      </div>
+
+      <button
+        type="button"
+        class="btn btn addToListButton"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+        style="scale=0.5"
+      >
+        Add to List
+      </button>
+    </div>
+    {% endif %}
+
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Add to List</h1>
+            <button
+              type="button"
+              class="close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form
+              id="addToListForm"
+              method="post"
+              action="{{ url_for('views.add_sport') }}"
+            >
+              <div class="mb-3">
+                <label for="id_title" class="form-label">Title</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="id_title"
+                  name="title"
+                />
+              </div>
+              <div class="mb-3 form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="id_completed"
+                  name="completed"
+                />
+                <label class="form-check-label" for="id_completed"
+                  >Completed</label
+                >
+              </div>
+              <div class="modal-footer d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary">
+                  Add to List
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script></script>
+
+{% endblock %}

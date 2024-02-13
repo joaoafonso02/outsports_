@@ -1,0 +1,58 @@
+{% extends "base.html" %} {% block title %}Notes{% endblock %} {% block content
+%}
+<h1 align="center">Notes</h1>
+<ul class="list-group list-group-flush" id="notes">
+  {% for note in user.notes %}
+  <li class="list-group-item">
+    {{ note.data }}
+    <button type="button" class="close" onClick="deleteNote('{{ note.id }}')">
+      <span aria-hidden="true">&times;</span>
+    </button>    
+    <button type="button" class="close" onClick="deleteNote('{{ note.id }}', '{{ note.data }}')">
+
+  </li>
+  {% endfor %}
+</ul>
+<form method="POST">
+  <textarea name="note" id="note" class="form-control"></textarea>
+  <br />
+  <div align="center">
+    <button type="submit" class="btn btn-primary">Add Note</button>
+  </div>
+</form>
+
+{% block javascript %}
+<script type="text/javascript">
+
+  function deleteNote(noteId, noteData) {
+    console.log('Deleting note with ID:', noteId);
+  
+    fetch("/delete-note", {
+      method: "POST",
+      body: JSON.stringify({ noteId: noteId, noteData: noteData }),
+    }).then((res) => {
+      if (!res.ok) {
+        throw new Error(`Failed to delete note. Status: ${res.status}`);
+      }
+      return res.json();
+    }).then((data) => {
+      if (data.success) {
+        console.log('Note deleted successfully');
+        // You may want to remove the note from the UI here
+        window.location.href = "/notes";
+      } else {
+        console.error('Error deleting note:', data.error);
+        // Handle the error as needed
+      }
+    }).catch((error) => {
+      console.error('Error:', error);
+    });
+  }
+  
+  
+
+  
+</script>
+{% endblock %}
+
+{% endblock %}

@@ -1,0 +1,141 @@
+{% extends "base.html" %} {% block content %}
+<div class="container my-1">
+  <h2 class="title">OutSports</h2>
+</div>
+
+<div class="container my-2">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="section-title">
+        <h2>Gallery</h2>
+        <p>My Sports Gallery</p>
+      </div>
+    </div>
+    <div class="col-md-6 text-right">
+      <div class="addEvent-container">
+        <a
+          href=""
+          class="btn btn-lg addEvent-btn"
+          data-bs-toggle="modal"
+          data-bs-target="#addImageModal"
+        >
+          Add Image
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="{{ url_for('static', filename='css/gallery.css') }}"
+  />
+
+  <section id="portfolio" class="portfolio">
+    <div class="container" data-aos="fade-up">
+      <div
+        class="row portfolio-container"
+        data-aos="fade-up"
+        data-aos-delay="200"
+      >
+        {% for image in user.data.gallery %}
+        <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+          <div class="portfolio-wrap">
+            <img
+              src="{{ url_for('static', filename='img/uploaded_files/' + image.image) }}"
+              alt="{{ image.title }}"
+            />
+            <div class="portfolio-info">
+              <h4>{{ image.title }}</h4>
+              <p>{{ image.description }}</p>
+              <div class="portfolio-links">
+                <a
+                  href="{{ url_for('static', filename='img/uploaded_files/' + image.image) }}"
+                  data-gallery="portfolioGallery"
+                  class="portfolio-lightbox"
+                  title="{{ image.title }}"
+                  ><i class="bx bx-plus"></i
+                ></a>
+                <a
+                  href="{{ url_for('views.delete_gallery_image', title=image.title) }}"
+                  class="remove-button"
+                  onclick="return confirm('Are you sure you want to delete <{{ image.title }}> image?')"
+                >
+                  <i
+                    class="fa-solid fa-trash"
+                    style="font-size: 0.8em; position: flex; top: 0; left: 0"
+                  ></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Add Image Modal -->
+<div
+  class="modal fade"
+  id="addImageModal"
+  tabindex="-1"
+  aria-labelledby="addImageModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addImageModalLabel">Add Image</h5>
+        <button
+          type="button"
+          class="close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form
+          method="post"
+          action="{{ url_for('views.add_to_gallery') }}"
+          enctype="multipart/form-data"
+        >
+          <label for="id_title">Title:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="id_title"
+            name="title"
+            required
+          />
+
+          <label for="id_description">Description:</label>
+          <textarea
+            class="form-control"
+            id="id_description"
+            name="description"
+          ></textarea>
+
+          <label for="id_image">Image:</label>
+          <input
+            type="file"
+            class="form-control"
+            id="id_image"
+            name="image"
+            accept="image/*"
+            required
+          />
+
+          <button type="submit" class="btn btn-primary float-right">
+            Add Image
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

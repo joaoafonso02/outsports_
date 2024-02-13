@@ -1,18 +1,36 @@
 from . import db
 from flask_login import UserMixin
-from sqlalchemy.sql import func
+from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 
+class UserData(db.EmbeddedDocument):
+    sports = db.ListField(db.DictField())
+    gallery = db.ListField(db.DictField())
+    calendar = db.ListField(db.DictField())
+    
+class Note(db.Document):
+    data = db.StringField()
+    date = db.DateTimeField(default=datetime.utcnow)
+    user = db.ReferenceField('User')
 
-class Note(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    data = db.Column(db.String(10000))
-    date = db.Column(db.DateTime(timezone=True), default=func.now())
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+class User(db.Document, UserMixin):
+    email = db.EmailField(unique=True)
+    password = db.StringField()
+    contact = db.StringField(max_length=150)
+    country = db.StringField(max_length=150)
+    name = db.StringField(max_length=150)
+    notes = db.ListField(db.ReferenceField(Note))
+    data = db.EmbeddedDocumentField(UserData, default=UserData)
+    
+    
+    def set_password(self, password):
+        # Set the hashed password
+        self.password_hash = generate_password_hash(password)
 
+    def check_password(self, password):
+        # Check if the provided password matches the hashed password
+        return check_password_hash(self.password, password)
 
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(150), unique=True)
-    password = db.Column(db.String(150))
-    first_name = db.Column(db.String(150))
-    notes = db.relationship('Note')
+    meta = {
+        'collection': 'Users'
+    }

@@ -71,7 +71,7 @@
 
 .card-footer img {
     max-width: 100%; 
-    height: auto; 
+    height: 300px;
     max-height: 30%; 
     border-radius: 5px; 
     margin-bottom: 10px; 

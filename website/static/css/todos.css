@@ -1,11 +1,11 @@
-/* TODO LIST*/
-
-#todo-list {
+/* sport LIST*/
+#sport-list {
     list-style: none;
     padding: 0;
 }
 
-#todo-list li {
+#sport-list li {
+    width: 300px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -14,7 +14,16 @@
     margin-bottom: 10px;
 }
 
-.todo-title {
+.sport-title {
+    flex-grow: 1;
+    margin-right: 10px;
+    margin-left: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.edit-input {
     flex-grow: 1;
     margin-right: 10px;
     margin-left: 10px;
@@ -40,7 +49,7 @@
 
 .updateButton,
 .addToListButton {
-    width: 100%;
+    width: 160px;
     padding: 10px 20px; /* Adjust padding as needed */
     font-size: 18px;
     border: none;

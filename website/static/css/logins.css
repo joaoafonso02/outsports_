@@ -9,10 +9,10 @@
 }
 
 .nav-pills .nav-link {
-  width: 100%;
+  width: 95%;
   color: #fff;
   background-color: #accef2; /* Primary color */
-  
+  border: none;
   border-radius: 5px;
   margin: 5px;
   padding: 10px 20px;

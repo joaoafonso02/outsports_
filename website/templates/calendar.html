@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-1">
+    <h2 class="title">OutSports</h2>
+</div>
+
+<div class="container my-2">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="section-title">
+                <h2>Calendar</h2>
+                <p>Sports Calendar</p>
+            </div>
+        </div>
+        <div class="col-md-6 text-right">
+            <div class="addEvent-container">
+                <button type="button" class="btn btn-lg addEvent-btn" data-bs-toggle="modal" data-bs-target="#addEventModal">
+                    Add Event
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/calendar.css') }}">
+
+    <!-- Display Calendar -->
+    <div class="calendar">
+        {% for event in user.data.calendar %}
+
+
+            <div class="event-card">
+                <a href="{{ url_for('views.delete_calendar_event', title=event.title) }}" class="remove-button" onclick="return confirm('Are you sure you want to delete {{ event.title }}?')">X</i></a>
+                <div class="card-header">
+                    <h3>{{ event.title }}</h3>
+                    {% if event.date %}
+                        <p>Due Date: {{ event.date }}</p>
+                    {% endif %}
+                    {% if event.repeat_option == 'every_week' %}
+                        <p>Repeat: Every {{ day }} </p>
+                    {% elif event.get_repeat_option_display %}
+                        <p>Repeat: {{ event.get_repeat_option_display }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="card-body">
+                    <p>{{ event.description }}</p>
+                </div>
+                <div class="card-footer">
+                    {% if 'image_path' in event %}
+                        <img src="{{ url_for('static', filename=event.image_path) }}" alt="{{ event.title }}">
+                    {% endif %}
+                </div>
+            </div>
+
+        {% endfor %}
+    </div>
+    
+
+   <!--MODAL NEW EVENT-->
+    <div class="modal fade" id="addEventModal" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="addEventModalLabel">Add Event</h1>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>                
+                <div class="modal-body">
+                    <form method="post" action="{{ url_for('views.add_event') }}">
+
+                        <!-- Event Title -->
+                        <div class="mb-3">
+                            <label for="id_title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="id_title" name="title" required>
+                        </div>
+                        
+                        <!-- Event Description -->
+                        <div class="mb-3">
+                            <label for="id_description" class="form-label">Description</label>
+                            <textarea class="form-control" id="id_description" name="description" rows="3"></textarea>
+                        </div>
+                        
+                        <!-- Event Due Date -->
+                        <div class="mb-3">
+                            <label for="id_due_date" class="form-label">Due Date</label>
+                            <input type="date" class="form-control" id="id_due_date" name="due_date" required>
+                        </div>
+                        
+                        <!-- Event Repeat Option -->
+                        <div class="mb-3">
+                            <label for="id_repeat_option" class="form-label">Repeat Option</label>
+                            <select class="form-select" id="id_repeat_option" name="repeat_option" required>
+                                <option value="" selected disabled>Select Repeat Option</option>
+                                <option value="never">Never</option>
+                                <option value="every_day">Every Day</option>
+                                <option value="every_week">Every Week</option>
+                                <option value="every_two_weeks">Every Two Weeks</option>
+                                <option value="every_month">Every Month</option>
+                                <option value="every_year">Every Year</option>
+                            </select>
+                        </div>
+                        
+                        <div class="modal-footer d-flex justify-content-center"> 
+                            <button type="submit" class="btn btn-primary">Add Event</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
